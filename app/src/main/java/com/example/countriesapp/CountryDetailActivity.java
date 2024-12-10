@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 
@@ -37,6 +38,16 @@ public class CountryDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_detail);
 
+        // Toolbar'ı tanımla
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Toolbar'a geri butonu ekle
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         countryNameTextView = findViewById(R.id.countryNameTextView);
         countryDetailsTextView = findViewById(R.id.countryDetailsTextView);
         flagImageView = findViewById(R.id.flagImageView);
@@ -54,6 +65,16 @@ public class CountryDetailActivity extends AppCompatActivity {
         fetchPopulationData(countryName);
 
         fetchCountryPhotos(countryName);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Geri butonuna basıldığında aktiviteyi kapat
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // Wikipedia'dan başkent, dil ve para birimi çekme

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         // Veriyi çekme işlemi
         new FetchData().execute();
     }
+
 
     // Wikipedia'dan veriyi çekme işlemi
     private class FetchData extends AsyncTask<Void, Void, Void> {
