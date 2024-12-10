@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     Elements cells = row.select("td");
 
                     // Ülke ismini çekme
-                    String country = cells.get(0).text();
+                    String country = cells.get(0).text().split("\\[", 2)[0].trim();
                     countryList.add(country);
                 }
 

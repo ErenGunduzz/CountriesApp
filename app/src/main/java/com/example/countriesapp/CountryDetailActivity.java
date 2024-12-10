@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
@@ -46,7 +47,6 @@ public class CountryDetailActivity extends AppCompatActivity {
                 if (infoBox != null) {
                     StringBuilder details = new StringBuilder();
                     // Nüfus, Başkent, Dil gibi alanları çekelim
-                    details.append("Population: ").append(getInfoBoxValue(infoBox, "Population")).append("\n");
                     details.append("Capital: ").append(getInfoBoxValue(infoBox, "Capital")).append("\n");
                     details.append("Language: ").append(getInfoBoxValue(infoBox, "Official language")).append("\n");
                     details.append("Currency: ").append(getInfoBoxValue(infoBox, "Currency")).append("\n");
@@ -74,9 +74,20 @@ public class CountryDetailActivity extends AppCompatActivity {
         Element row = infoBox.select("tr:contains(" + key + ")").first();
         if (row != null) {
             String text = row.select("td").text();
-            return text.split("\\d", 2)[0].trim();
+
+            // [] içindeki metni ve sayıları temizle
+            text = text.replaceAll("\\[.*?\\]", ""); // Köşeli parantez ve içindekileri sil
+            if (!key.equals("Population")) {
+                text = text.replaceAll("\\d.*", ""); // Eğer 'Population' değilse, ilk sayıdan sonrasını sil
+            }
+
+            return text.trim(); // Son hali boşluklardan arındır
         }
         return "Not available";
     }
+
+
+
+
 }
 
