@@ -22,10 +22,21 @@ public class MainActivity extends AppCompatActivity {
     CountryAdapter adapter;
     ArrayList<String> countryList = new ArrayList<>(); // Ülkeleri saklayacak liste
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Enable the "Back" button on the toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -37,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
         new FetchData().execute();
     }
 
+    // Handle the back button press on the toolbar
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Go back to the previous screen (HomePageActivity)
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     // Wikipedia'dan veriyi çekme işlemi
     private class FetchData extends AsyncTask<Void, Void, Void> {
