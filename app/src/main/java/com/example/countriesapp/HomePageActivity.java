@@ -2,6 +2,7 @@ package com.example.countriesapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,14 +29,17 @@ public class HomePageActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //btnFavorites.setOnClickListener(v -> {
-            //Intent intent = new Intent(HomePageActivity.this, FavoritesActivity.class);
-            //startActivity(intent);
-        //});
+        btnFavorites.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePageActivity.this, FavoritesActivity.class);
+            intent.putStringArrayListExtra("favorites", new ArrayList<>(FavoriteCountries.getFavorites()));
+            startActivity(intent);
+        });
+
 
         //btnCompare.setOnClickListener(v -> {
             //Intent intent = new Intent(HomePageActivity.this, CompareActivity.class);
             //startActivity(intent);
         //});
     }
+
 }

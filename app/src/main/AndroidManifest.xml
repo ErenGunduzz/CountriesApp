@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CountriesApp"
         tools:targetApi="31">
+
         <activity
             android:name=".HomePageActivity"
             android:exported="true"
@@ -31,6 +32,10 @@
 
         <activity
             android:name=".CountryDetailActivity" >
+        </activity>
+
+        <activity
+            android:name=".FavoritesActivity">
         </activity>
 
     </application>

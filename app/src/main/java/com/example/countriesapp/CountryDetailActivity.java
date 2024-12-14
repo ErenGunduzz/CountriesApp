@@ -2,8 +2,11 @@ package com.example.countriesapp;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -68,14 +71,50 @@ public class CountryDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_favorite) {
+            // Favorilere ekleme işlemi
+            addToFavorites();
+            return true;
+        } else if (id == android.R.id.home) {
             // Geri butonuna basıldığında aktiviteyi kapat
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void addToFavorites() {
+        if (FavoriteCountries.isFavorite(countryName)) {
+            FavoriteCountries.removeFavorite(countryName);
+            Toast.makeText(this, countryName + " favorilerden kaldırıldı!", Toast.LENGTH_SHORT).show();
+        } else {
+            FavoriteCountries.addFavorite(countryName);
+            Toast.makeText(this, countryName + " favorilere eklendi!", Toast.LENGTH_SHORT).show();
+        }
+        invalidateOptionsMenu(); // Menü simgesini güncelle
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem favoriteItem = menu.findItem(R.id.action_favorite);
+        if (FavoriteCountries.isFavorite(countryName)) {
+            favoriteItem.setIcon(R.drawable.baseline_star_24); // Dolu yıldız
+        } else {
+            favoriteItem.setIcon(R.drawable.ic_launcher_foreground); // Boş yıldız
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_country_detail, menu);
+        return true;
+    }
+
 
     // Wikipedia'dan başkent, dil ve para birimi çekme
     private class FetchCountryDetails extends AsyncTask<Void, Void, String> {
@@ -174,6 +213,8 @@ public class CountryDetailActivity extends AppCompatActivity {
         });
     }
 
+
+
     // Nüfusu 3 basamaklı gruplara ayır
     private String formatPopulation(long population) {
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
@@ -205,6 +246,9 @@ public class CountryDetailActivity extends AppCompatActivity {
                             .into(countryPhotoImageView);
                 }
             }
+
+
+
 
             @Override
             public void onFailure(Call<PixabayResponse> call, Throwable t) {
