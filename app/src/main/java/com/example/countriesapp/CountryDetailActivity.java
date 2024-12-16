@@ -213,8 +213,6 @@ public class CountryDetailActivity extends AppCompatActivity {
         });
     }
 
-
-
     // Nüfusu 3 basamaklı gruplara ayır
     private String formatPopulation(long population) {
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);

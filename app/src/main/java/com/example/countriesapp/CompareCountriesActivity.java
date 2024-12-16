@@ -32,18 +32,20 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
         btnCmp.setOnClickListener(view -> {
             String country1 = (String) spinnerCountry1.getSelectedItem();
             String country2 = (String) spinnerCountry2.getSelectedItem();
+            if (country1 != null && country2 != null && !country1.equals(country2)) {
+                CompareResultFragment fragment = new CompareResultFragment();
+                Bundle args = new Bundle();
+                args.putString("country1", country1);
+                args.putString("country2", country2);
+                fragment.setArguments(args);
 
-            /*
-            if (country1 != null && country2 != null) {
-                Intent intent = new Intent(this, CompareResultActivity.class);
-                intent.putExtra("country1", country1);
-                intent.putExtra("country2", country2);
-                startActivity(intent);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
             } else {
                 Toast.makeText(this, "Please select two different countries", Toast.LENGTH_LONG).show();
             }
-
-             */
         });
     }
 
