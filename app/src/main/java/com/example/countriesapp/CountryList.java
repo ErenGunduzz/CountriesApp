@@ -16,7 +16,7 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class CountryList extends AppCompatActivity {
 
     RecyclerView recyclerView;
     CountryAdapter adapter;
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             if (countryList.isEmpty()) {
-                Toast.makeText(MainActivity.this, "Veri çekilemedi", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CountryList.this, "Veri çekilemedi", Toast.LENGTH_SHORT).show();
             } else {
                 adapter.notifyDataSetChanged();
             }
