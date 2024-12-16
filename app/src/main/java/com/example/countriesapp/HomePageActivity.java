@@ -35,10 +35,10 @@ public class HomePageActivity extends AppCompatActivity {
         });
 
 
-        //btnCompare.setOnClickListener(v -> {
-            //Intent intent = new Intent(HomePageActivity.this, CompareActivity.class);
-            //startActivity(intent);
-        //});
+        btnCompare.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePageActivity.this, CompareCountriesActivity.class);
+            startActivity(intent);
+        });
     }
 
 }

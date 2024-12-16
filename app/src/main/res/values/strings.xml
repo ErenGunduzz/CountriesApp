@@ -5,4 +5,5 @@
     <string name="details_country_flag">Country Flag</string>
     <string name="details_country_details">Country Details</string>
     <string name="details_country_photo">Country Photo</string>
+    <string name="compare">Compare 2 countries</string>
 </resources>

@@ -37,6 +37,12 @@
         <activity
             android:name=".FavoritesActivity">
         </activity>
+        <activity
+            android:name=".CompareCountriesActivity">
+        </activity>
+        <activity
+            android:name=".CountryFetcher">
+        </activity>
 
     </application>
 

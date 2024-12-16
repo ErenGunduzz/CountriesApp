@@ -16,11 +16,13 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
     ArrayList<String> countryList;
     Context context;
+    OnCountrySelectedListener listener; //Used when comparing countries
 
     //Constructor method
-    public CountryListAdapter(Context context, ArrayList<String> countryList) {
+    public CountryListAdapter(Context context, ArrayList<String> countryList, OnCountrySelectedListener listener) {
         this.context = context;
         this.countryList = countryList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -41,6 +43,12 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
             intent.putExtra("country_name", country);
             context.startActivity(intent);
         });
+    /*
+        holder.itemView.setOnClickListener(v -> {
+            listener.onCountrySelected(country);
+        });
+
+     */
     }
 
     @Override
@@ -56,4 +64,9 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
             textView = itemView.findViewById(android.R.id.text1);
         }
     }
+
+    public interface OnCountrySelectedListener {
+        void onCountrySelected(String country);
+    }
+
 }
