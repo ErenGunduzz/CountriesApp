@@ -12,21 +12,21 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
+    <!-- Toolbar -->
     <TextView
         android:id="@+id/countryNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:text="Country Name" />
+        android:text="@string/details_country_name"/>
 
     <ImageView
         android:id="@+id/flagImageView"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
-        android:contentDescription="Country Flag"
+        android:contentDescription="@string/details_country_flag"
         android:scaleType="fitCenter"/>
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:text="Country Details"
+        android:text="@string/details_country_details"
         android:layout_marginTop="16dp" />
 
     <ImageView
@@ -43,6 +43,6 @@
         android:layout_height="200dp"
         android:layout_marginTop="16dp"
         android:scaleType="centerCrop"
-        android:contentDescription="Country Photo"/>
+        android:contentDescription="@string/details_country_photo"/>
 
 </LinearLayout>

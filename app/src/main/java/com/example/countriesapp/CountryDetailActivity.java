@@ -177,7 +177,7 @@ public class CountryDetailActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        CountryApiService service = retrofit.create(CountryApiService.class);
+        CountryDetailAPI service = retrofit.create(CountryDetailAPI.class);
         Call<List<CountryResponse>> call = service.getCountryData(country);
 
         call.enqueue(new Callback<List<CountryResponse>>() {

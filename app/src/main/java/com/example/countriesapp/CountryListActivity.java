@@ -16,10 +16,10 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
-public class CountryList extends AppCompatActivity {
+public class CountryListActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    CountryAdapter adapter;
+    CountryListAdapter adapter;
     ArrayList<String> countryList = new ArrayList<>(); // Ülkeleri saklayacak liste
 
     Toolbar toolbar;
@@ -27,7 +27,7 @@ public class CountryList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_country_list);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -41,7 +41,8 @@ public class CountryList extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new CountryAdapter(this, countryList);
+        // Connecting adapter with recyclerView
+        adapter = new CountryListAdapter(this, countryList);
         recyclerView.setAdapter(adapter);
 
         // Veriyi çekme işlemi
@@ -92,7 +93,7 @@ public class CountryList extends AppCompatActivity {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             if (countryList.isEmpty()) {
-                Toast.makeText(CountryList.this, "Veri çekilemedi", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CountryListActivity.this, "Veri çekilemedi", Toast.LENGTH_SHORT).show();
             } else {
                 adapter.notifyDataSetChanged();
             }

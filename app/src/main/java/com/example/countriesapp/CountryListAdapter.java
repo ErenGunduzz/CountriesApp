@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder> {
+public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.ViewHolder> {
 
     ArrayList<String> countryList;
     Context context;
 
-    public CountryAdapter(Context context, ArrayList<String> countryList) {
+    //Constructor method
+    public CountryListAdapter(Context context, ArrayList<String> countryList) {
         this.context = context;
         this.countryList = countryList;
     }
@@ -34,7 +35,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
         String country = countryList.get(position);
         holder.textView.setText(country);
 
-        // Tıklama olayını ekliyoruz
+        // Clicking
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, CountryDetailActivity.class);
             intent.putExtra("country_name", country);

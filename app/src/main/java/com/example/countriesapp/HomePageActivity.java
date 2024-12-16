@@ -24,7 +24,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         // Buton tıklama olayları
         btnCountryList.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePageActivity.this, CountryList.class);
+            Intent intent = new Intent(HomePageActivity.this, CountryListActivity.class);
             startActivity(intent);
         });
 

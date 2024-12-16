@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CountriesApp</string>
+    <string name="country_list">Country List</string>
+    <string name="details_country_name">Country Name</string>
+    <string name="details_country_flag">Country Flag</string>
+    <string name="details_country_details">Country Details</string>
+    <string name="details_country_photo">Country Photo</string>
 </resources>

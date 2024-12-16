@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".CountryList">
+            android:name=".CountryListActivity">
         </activity>
 
         <activity
