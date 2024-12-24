@@ -13,6 +13,8 @@ public class HomePageActivity extends AppCompatActivity {
     ArrayList<String> countryList = new ArrayList<>();
     Button btnCountryList, btnFavorites, btnCompare;
 
+    DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         btnFavorites.setOnClickListener(v -> {
             Intent intent = new Intent(HomePageActivity.this, FavoritesActivity.class);
-            intent.putStringArrayListExtra("favorites", new ArrayList<>(FavoriteCountries.getFavorites()));
+            intent.putStringArrayListExtra("favorites", new ArrayList<>(databaseHelper.getAllFavorites()));
             startActivity(intent);
         });
 

@@ -36,6 +36,8 @@ public class CountryDetailActivity extends AppCompatActivity {
     ImageView countryPhotoImageView; // Ülke görseli için
     String countryName;
 
+    //
+    DatabaseHelper databaseHelper = new DatabaseHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,11 +89,11 @@ public class CountryDetailActivity extends AppCompatActivity {
     }
 
     private void addToFavorites() {
-        if (FavoriteCountries.isFavorite(countryName)) {
-            FavoriteCountries.removeFavorite(countryName);
+        if (databaseHelper.isFavorite(countryName)) {
+            databaseHelper.removeFavorite(countryName);
             Toast.makeText(this, countryName + " favorilerden kaldırıldı!", Toast.LENGTH_SHORT).show();
         } else {
-            FavoriteCountries.addFavorite(countryName);
+            databaseHelper.addFavorite(countryName);
             Toast.makeText(this, countryName + " favorilere eklendi!", Toast.LENGTH_SHORT).show();
         }
         invalidateOptionsMenu(); // Menü simgesini güncelle
@@ -100,7 +102,7 @@ public class CountryDetailActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem favoriteItem = menu.findItem(R.id.action_favorite);
-        if (FavoriteCountries.isFavorite(countryName)) {
+        if (databaseHelper.isFavorite(countryName)) {
             favoriteItem.setIcon(R.drawable.baseline_star_24); // Dolu yıldız
         } else {
             favoriteItem.setIcon(R.drawable.ic_launcher_foreground); // Boş yıldız

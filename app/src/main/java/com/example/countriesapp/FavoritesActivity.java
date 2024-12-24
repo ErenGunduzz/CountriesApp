@@ -14,10 +14,14 @@ public class FavoritesActivity extends AppCompatActivity {
     RecyclerView favoritesRecyclerView;
     FavoritesAdapter adapter;
 
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
+
+        databaseHelper = new DatabaseHelper(this);
 
         favoritesRecyclerView = findViewById(R.id.favoritesRecyclerView);
         favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -30,7 +34,7 @@ public class FavoritesActivity extends AppCompatActivity {
         }
 
         // Favori ülkeleri al ve RecyclerView'e yükle
-        List<String> favoriteCountries = FavoriteCountries.getFavorites();
+        List<String> favoriteCountries = databaseHelper.getAllFavorites();
         if (favoriteCountries != null && !favoriteCountries.isEmpty()) {
             adapter = new FavoritesAdapter(favoriteCountries);
             if (adapter != null) {
@@ -55,8 +59,11 @@ public class FavoritesActivity extends AppCompatActivity {
     }
     // Favori ülkeler değiştiğinde, adapter'ı güncelle
     public void updateFavoritesList() {
-        List<String> updatedFavorites = FavoriteCountries.getFavorites();
-        adapter.updateFavorites(updatedFavorites);
+        super.onResume();
+        List<String> favoriteCountries = databaseHelper.getAllFavorites();
+        if (adapter != null) {
+            adapter.updateFavorites(favoriteCountries);
+        }
     }
 
 
