@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".CompareCountriesActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarCompare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextColor="@android:color/white"
+        android:title="@string/app_name" />
+
     <Spinner
         android:id="@+id/spinner_country1"
         android:layout_width="match_parent"
@@ -22,6 +32,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
         android:minHeight="48dp"/>
+
     <Button
         android:id="@+id/btn_cmp"
         android:layout_width="match_parent"
@@ -29,8 +40,10 @@
         android:text="@string/compare"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"/>
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
 </LinearLayout>

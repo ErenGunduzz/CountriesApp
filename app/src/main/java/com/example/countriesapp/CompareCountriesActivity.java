@@ -1,6 +1,5 @@
 package com.example.countriesapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -8,6 +7,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +17,20 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
     Spinner spinnerCountry1, spinnerCountry2;
     Button btnCmp;
     ArrayList<String> countryList = new ArrayList<>(); // Ülke listesi
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compare_countries);
+
+        toolbar = findViewById(R.id.toolbarCompare);
+        setSupportActionBar(toolbar);
+
+        // Enable the "Back" button on the toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         spinnerCountry1 = findViewById(R.id.spinner_country1);
         spinnerCountry2 = findViewById(R.id.spinner_country2);
@@ -67,5 +76,14 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCountry1.setAdapter(adapter);
         spinnerCountry2.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
