@@ -51,11 +51,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void removeFavorite(String countryName){
+    public void removeFavorite(String countryName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("favorites", countryName + "=?", new String[]{ countryName});
+        db.delete("favorites", "countryName = ?", new String[]{countryName});
         db.close();
     }
+
 
 
     public List<String> getAllFavorites(){
