@@ -34,9 +34,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CountryDetailActivity extends AppCompatActivity {
 
     TextView countryNameTextView, countryDetailsTextView;
-    ImageView flagImageView; // Bayrak resmini göstermek için
-    ImageView countryPhotoImageView; // Ülke görseli için
-    Button btnOpenInMaps; // Haritada açma butonu
+    ImageView flagImageView; // To display flag
+    ImageView countryPhotoImageView; // For country image
+    Button btnOpenInMaps; // Button to open country in the map
     String countryName;
 
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
@@ -46,11 +46,11 @@ public class CountryDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_detail);
 
-        // Toolbar'ı tanımla
+        // Define toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Toolbar'a geri butonu ekle
+        // Back button to toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -62,14 +62,13 @@ public class CountryDetailActivity extends AppCompatActivity {
         countryPhotoImageView = findViewById(R.id.countryPhotoImageView);
         btnOpenInMaps = findViewById(R.id.btn_open_in_maps);
 
-        // Intent ile gelen ülke adını al
+        // Take country name from intent
         countryName = getIntent().getStringExtra("country_name");
         countryNameTextView.setText(countryName);
 
-        // Wikipedia'dan detayları çek
+        // Fetch details from wikipedia
         new FetchCountryDetails().execute();
 
-        // API'den nüfus verisini çek
         fetchPopulationData(countryName);
 
         fetchCountryPhotos(countryName);
@@ -126,7 +125,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         if (databaseHelper.isFavorite(countryName)) {
             favoriteItem.setIcon(R.drawable.baseline_star_24); // Dolu yıldız
         } else {
-            favoriteItem.setIcon(R.drawable.ic_launcher_foreground); // Boş yıldız
+            favoriteItem.setIcon(R.drawable.empty_star); // Boş yıldız
         }
         return super.onPrepareOptionsMenu(menu);
     }
