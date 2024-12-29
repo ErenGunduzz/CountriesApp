@@ -16,7 +16,14 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CompareResultFragment extends Fragment {
 
@@ -63,7 +70,8 @@ public class CompareResultFragment extends Fragment {
                     StringBuilder details = new StringBuilder();
                     details.append("Language: ").append(getInfoBoxValue(infobox, "Official language")).append("\n");
                     details.append("Currency: ").append(getInfoBoxValue(infobox, "Currency")).append("\n");
-                    details.append("Population: ").append(getInfoBoxValue(infobox, "Population")).append("\n");
+                    details.append("Capital: ").append(getInfoBoxValue(infobox, "Capital")).append("\n");
+                    fetchCountryDetailsFromAPI(countryName, detailsView, details);
 
                     getActivity().runOnUiThread(() -> detailsView.setText(details.toString()));
                 } else {
@@ -76,11 +84,53 @@ public class CompareResultFragment extends Fragment {
         }).start();
     }
 
-    private String getInfoBoxValue(Element infobox, String key) {
-        Element row = infobox.select("tr:contains(" + key + ")").first();
+    private String getInfoBoxValue(Element infoBox, String key) {
+        Element row = infoBox.select("tr:contains(" + key + ")").first();
         if (row != null) {
-            return row.select("td").text().replaceAll("\\[.*?\\]", "");
+            String text = row.select("td").text();
+
+            text = text.replaceAll("\\[.*?\\]", "");
+
+            if (!key.equals("Population")) {
+                text = text.split("\\d", 2)[0].trim();
+            }
+
+            return text.trim();
         }
         return "Not available";
+    }
+
+
+    // REST API ile nüfus bilgisini çek
+    private void fetchCountryDetailsFromAPI(String countryName, TextView detailsView, StringBuilder details) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://restcountries.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        CountryDetailAPI service = retrofit.create(CountryDetailAPI.class);
+        Call<List<CountryResponse>> call = service.getCountryData(countryName);
+
+        call.enqueue(new Callback<List<CountryResponse>>() {
+            @Override
+            public void onResponse(Call<List<CountryResponse>> call, Response<List<CountryResponse>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    CountryResponse countryData = response.body().get(0);
+                    long population = countryData.population;
+                    String formattedPopulation = NumberFormat.getInstance(Locale.US).format(population);
+
+                    details.append("Population: ").append(formattedPopulation).append("\n");
+
+                    detailsView.setText(details.toString());
+                } else {
+                    detailsView.setText("Population not available");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CountryResponse>> call, Throwable t) {
+                detailsView.setText("Error fetching details");
+            }
+        });
     }
 }
