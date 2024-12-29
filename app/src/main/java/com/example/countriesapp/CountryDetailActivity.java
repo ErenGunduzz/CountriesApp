@@ -1,9 +1,12 @@
 package com.example.countriesapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +21,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,18 +31,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class CountryDetailActivity extends AppCompatActivity {
 
     TextView countryNameTextView, countryDetailsTextView;
     ImageView flagImageView; // Bayrak resmini göstermek için
     ImageView countryPhotoImageView; // Ülke görseli için
+    Button btnOpenInMaps; // Haritada açma butonu
     String countryName;
 
-    //
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +60,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         countryDetailsTextView = findViewById(R.id.countryDetailsTextView);
         flagImageView = findViewById(R.id.flagImageView);
         countryPhotoImageView = findViewById(R.id.countryPhotoImageView);
-
+        btnOpenInMaps = findViewById(R.id.btn_open_in_maps);
 
         // Intent ile gelen ülke adını al
         countryName = getIntent().getStringExtra("country_name");
@@ -70,7 +73,25 @@ public class CountryDetailActivity extends AppCompatActivity {
         fetchPopulationData(countryName);
 
         fetchCountryPhotos(countryName);
+
+        // Haritada açma butonu işlevi
+        btnOpenInMaps.setOnClickListener(v -> openCountryInMaps(countryName));
     }
+
+    private void openCountryInMaps(String countryName) {
+        Uri geoUri = Uri.parse("geo:0,0?q=" + Uri.encode(countryName));
+        Intent intent = new Intent(Intent.ACTION_VIEW, geoUri);
+        intent.setPackage("com.google.android.apps.maps");
+        try {
+            startActivity(intent);
+        } catch (Exception e){
+            // Redirecting to Play store
+            Toast.makeText(this, "Google Maps not installed. Redirecting to Play Store.", Toast.LENGTH_SHORT).show();
+            Intent playStoreIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.maps"));
+            startActivity(playStoreIntent);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -110,13 +131,11 @@ public class CountryDetailActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.menu_country_detail, menu);
         return true;
     }
-
 
     // Wikipedia'dan başkent, dil ve para birimi çekme
     private class FetchCountryDetails extends AsyncTask<Void, Void, String> {
@@ -170,7 +189,6 @@ public class CountryDetailActivity extends AppCompatActivity {
         }
         return "Not available";
     }
-
 
     // REST API ile nüfus bilgisini çek
     private void fetchPopulationData(String country) {
@@ -247,14 +265,10 @@ public class CountryDetailActivity extends AppCompatActivity {
                 }
             }
 
-
-
-
             @Override
             public void onFailure(Call<PixabayResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
-
 }

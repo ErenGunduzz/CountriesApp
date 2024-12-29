@@ -1,6 +1,5 @@
 package com.example.countriesapp;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 

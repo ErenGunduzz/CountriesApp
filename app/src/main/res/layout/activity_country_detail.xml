@@ -45,4 +45,12 @@
         android:scaleType="centerCrop"
         android:contentDescription="@string/details_country_photo"/>
 
+    <Button
+        android:id="@+id/btn_open_in_maps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/open_in_maps"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+
 </LinearLayout>
