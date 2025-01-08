@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CountriesApp</string>
+    <string name="app_name">Learning Countries App</string>
     <string name="country_list">Country List</string>
     <string name="details_country_name">Country Name</string>
     <string name="details_country_flag">Country Flag</string>
@@ -7,4 +7,6 @@
     <string name="details_country_photo">Country Photo</string>
     <string name="compare">Compare 2 countries</string>
     <string name="open_in_maps">See location in Google Maps!</string>
+    <string name="favourite_countries">Favorite Countries</string>
+    <string name="content">Top 20 Country Flags</string>
 </resources>

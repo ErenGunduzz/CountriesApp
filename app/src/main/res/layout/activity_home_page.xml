@@ -5,58 +5,66 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center">
-
-    <!-- Horizontal layout for Country List and Favorite Countries -->
+    android:gravity="center"
+    android:background="#D6EAF8">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:gravity="center|start|top"
-        android:text="Country Comparison App"
+        android:gravity="center"
+        android:text="@string/app_name"
         android:textColor="#000"
-        android:textSize="34sp" />
+        android:textSize="28sp"
+        android:layout_marginBottom="0dp" />
+
+    <!-- ImageView for displaying the flags of top 20 countries -->
+    <ImageView
+        android:id="@+id/img_flags"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/flags_image"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/content"
+        android:layout_marginTop="50dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="8dp">
+        android:layout_marginTop="50dp">
 
         <Button
             android:id="@+id/btn_country_list"
             style="@style/Widget.AppCompat.Button"
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:padding="10dp"
-            android:text="Country List"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:background="@color/button_color_blue_dark"
+            android:padding="16dp"
+            android:text="@string/country_list"
+            android:textColorLink="#EFE4E4" />
 
         <Button
             android:id="@+id/btn_favorites"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:padding="10dp"
-            android:paddingRight="24dp"
-            android:text="Favorite Countries"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
+            android:text="@string/favourite_countries"
+            android:background="@color/button_color_blue_dark"
+            android:padding="16dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <!-- Compare Countries button at the bottom, centered -->
     <Button
         android:id="@+id/btn_compare"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Compare Countries"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:iconPadding="8dp" />
+        android:layout_marginTop="50dp"
+        android:text="@string/compare"
+        android:padding="16dp"
+        style="@style/Widget.AppCompat.Button.Colored" />
 
 </LinearLayout>

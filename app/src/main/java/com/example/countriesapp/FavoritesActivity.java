@@ -41,11 +41,11 @@ public class FavoritesActivity extends AppCompatActivity {
                 favoritesRecyclerView.setAdapter(adapter);
             } else {
                 // Adapter oluşturulamadıysa hata mesajı
-                Toast.makeText(this, "Adapter oluşturulamadı",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Adapter could not created!",Toast.LENGTH_SHORT).show();
             }
         } else {
             // Hata mesajı gösterebilirsiniz ya da boş listeyi gösterebilirsiniz
-            Toast.makeText(this, "Henüz bir favori yok", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "There is no favorite yet!", Toast.LENGTH_SHORT).show();
         }
     }
     @Override

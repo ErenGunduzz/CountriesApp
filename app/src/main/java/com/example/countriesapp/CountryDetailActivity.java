@@ -111,10 +111,10 @@ public class CountryDetailActivity extends AppCompatActivity {
     private void addToFavorites() {
         if (databaseHelper.isFavorite(countryName)) {
             databaseHelper.removeFavorite(countryName);
-            Toast.makeText(this, countryName + " favorilerden kaldırıldı!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, countryName + " removed from favorites!", Toast.LENGTH_SHORT).show();
         } else {
             databaseHelper.addFavorite(countryName);
-            Toast.makeText(this, countryName + " favorilere eklendi!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, countryName + " added to favorites!", Toast.LENGTH_SHORT).show();
         }
         invalidateOptionsMenu(); // Menü simgesini güncelle
     }
