@@ -19,6 +19,7 @@ public class CountryFetcher extends AppCompatActivity {
         void onFetchFailed();
     }
 
+    //Ülkeler wikipedia'dan çekilir
     public static void fetchCountries(CountryFetchListener listener) {
         new AsyncTask<Void, Void, List<String>>() {
             @Override

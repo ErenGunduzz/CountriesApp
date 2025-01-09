@@ -34,9 +34,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CountryDetailActivity extends AppCompatActivity {
 
     TextView countryNameTextView, countryDetailsTextView;
-    ImageView flagImageView; // To display flag
-    ImageView countryPhotoImageView; // For country image
-    Button btnOpenInMaps; // Button to open country in the map
+    ImageView flagImageView; //Bayrağı göstermek için
+    ImageView countryPhotoImageView; //Ülke resmi için
+    Button btnOpenInMaps; //Ülkeyi haritada görmek için kullanılan button
     String countryName;
 
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
@@ -46,11 +46,9 @@ public class CountryDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_detail);
 
-        // Define toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Back button to toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -62,11 +60,11 @@ public class CountryDetailActivity extends AppCompatActivity {
         countryPhotoImageView = findViewById(R.id.countryPhotoImageView);
         btnOpenInMaps = findViewById(R.id.btn_open_in_maps);
 
-        // Take country name from intent
+        //Intent'ten ülkenin ismi alınır
         countryName = getIntent().getStringExtra("country_name");
         countryNameTextView.setText(countryName);
 
-        // Fetch details from wikipedia
+        //Detaylar wikipedia'dan çekilir
         new FetchCountryDetails().execute();
 
         fetchPopulationData(countryName);
@@ -84,7 +82,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         try {
             startActivity(intent);
         } catch (Exception e){
-            // Redirecting to Play store
+            //Play Store'a yönlendirme
             Toast.makeText(this, "Google Maps not installed. Redirecting to Play Store.", Toast.LENGTH_SHORT).show();
             Intent playStoreIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.maps"));
             startActivity(playStoreIntent);
@@ -97,28 +95,32 @@ public class CountryDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_favorite) {
-            // Favorilere ekleme işlemi
+            //Favorilere ekleme işlemi
             addToFavorites();
             return true;
         } else if (id == android.R.id.home) {
-            // Geri butonuna basıldığında aktiviteyi kapat
+            //Geri butonuna basıldığında aktiviteyi kapat
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    //Favorilere ekleme/çıkarma işlemi
     private void addToFavorites() {
-        if (databaseHelper.isFavorite(countryName)) {
+        //Ülke favoriler database'inde mi diye kontrol edilir
+
+        if (databaseHelper.isFavorite(countryName)) { //Ülke zaten favorilerde varsa o zaman ülke favorilerden çıkarılır
             databaseHelper.removeFavorite(countryName);
             Toast.makeText(this, countryName + " removed from favorites!", Toast.LENGTH_SHORT).show();
-        } else {
+        } else { //Ülke favorilerde değilse, favorilere eklenir
             databaseHelper.addFavorite(countryName);
             Toast.makeText(this, countryName + " added to favorites!", Toast.LENGTH_SHORT).show();
         }
         invalidateOptionsMenu(); // Menü simgesini güncelle
     }
 
+    //Toolbarda yer alan favori simgesi ayarlaması
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem favoriteItem = menu.findItem(R.id.action_favorite);

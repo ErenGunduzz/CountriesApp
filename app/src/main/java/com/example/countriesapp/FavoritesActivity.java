@@ -33,7 +33,7 @@ public class FavoritesActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        // Favori ülkeleri al ve RecyclerView'e yükle
+        // Favori ülkeleri alıp RecyclerView'e yükleme
         List<String> favoriteCountries = databaseHelper.getAllFavorites();
         if (favoriteCountries != null && !favoriteCountries.isEmpty()) {
             adapter = new FavoritesAdapter(favoriteCountries);
@@ -44,14 +44,14 @@ public class FavoritesActivity extends AppCompatActivity {
                 Toast.makeText(this, "Adapter could not created!",Toast.LENGTH_SHORT).show();
             }
         } else {
-            // Hata mesajı gösterebilirsiniz ya da boş listeyi gösterebilirsiniz
+            //Henüz bir favori yoksa ekranda mesajla gösterilir
             Toast.makeText(this, "There is no favorite yet!", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            // Go back to the previous screen (HomePageActivity)
+            //Önceki ekrana yani HomePageActivity'a döner
             onBackPressed();
             return true;
         }

@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) { super(context, DATABASE_NAME, null, 1); }
 
+    //Database oluşturulur
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
@@ -51,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //Favorilenmiş bir ülkeyi database'den çıkarma
     public void removeFavorite(String countryName) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("favorites", "countryName = ?", new String[]{countryName});

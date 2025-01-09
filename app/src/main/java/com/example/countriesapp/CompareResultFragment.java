@@ -37,7 +37,7 @@ public class CompareResultFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        //Bu fragmet için layout inflate edildi
         View view = inflater.inflate(R.layout.fragment_compare_result, container, false);
         textViewCountry1Name = view.findViewById(R.id.textViewCountry1Name);
         textViewCountry1Details = view.findViewById(R.id.textViewCountry1Details);
@@ -59,6 +59,7 @@ public class CompareResultFragment extends Fragment {
         return view;
     }
 
+    //Wikipedia'dan ülke deatyları çekilir
     private void fetchCountryDetailsFromWikipedia(String countryName, TextView detailsView) {
         new Thread(() -> {
             try {

@@ -27,7 +27,7 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
         toolbar = findViewById(R.id.toolbarCompare);
         setSupportActionBar(toolbar);
 
-        // Enable the "Back" button on the toolbar
+        //"Back" buttonunu aktif etme
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -36,8 +36,10 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
         spinnerCountry2 = findViewById(R.id.spinner_country2);
         btnCmp = findViewById(R.id.btn_cmp);
 
+        //Ülkeleri çekme
         CountryFetcher.fetchCountries(this);
 
+        //Karşılaştırılacak ülkelerin sırayla spinnerlar ile seçilmesi
         btnCmp.setOnClickListener(view -> {
             String country1 = (String) spinnerCountry1.getSelectedItem();
             String country2 = (String) spinnerCountry2.getSelectedItem();
@@ -62,7 +64,7 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
     public void onCountriesFetched(List<String> countries) {
         countryList.clear();
         countryList.addAll(countries);
-        setupSpinners(); // Spinnerları ayarlayan metod
+        setupSpinners(); // Spinnerları ayarlayan method
     }
 
     @Override
