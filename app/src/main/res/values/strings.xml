@@ -9,4 +9,5 @@
     <string name="open_in_maps">See location in Google Maps!</string>
     <string name="favourite_countries">Favorite Countries</string>
     <string name="content">Top 20 Country Flags</string>
+    <string name="add_to_fav">Add to Favorites</string>
 </resources>
