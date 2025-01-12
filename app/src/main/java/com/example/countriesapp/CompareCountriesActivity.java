@@ -17,7 +17,7 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
 
     Spinner spinnerCountry1, spinnerCountry2;
     Button btnCmp;
-    ArrayList<String> countryList = new ArrayList<>(); // Ülke listesi
+    ArrayList<String> countryList = new ArrayList<>(); // countries added to this.
     Toolbar toolbar;
 
     @Override

@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,9 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CompareResultFragment extends Fragment {
 
-    private TextView textViewCountry1Name, textViewCountry1Details;
-    private TextView textViewCountry2Name, textViewCountry2Details;
-
     public CompareResultFragment() {
         // Required empty public constructor
     }
@@ -39,10 +35,10 @@ public class CompareResultFragment extends Fragment {
                              Bundle savedInstanceState) {
         //Bu fragmet için layout inflate edildi
         View view = inflater.inflate(R.layout.fragment_compare_result, container, false);
-        textViewCountry1Name = view.findViewById(R.id.textViewCountry1Name);
-        textViewCountry1Details = view.findViewById(R.id.textViewCountry1Details);
-        textViewCountry2Name = view.findViewById(R.id.textViewCountry2Name);
-        textViewCountry2Details = view.findViewById(R.id.textViewCountry2Details);
+        TextView textViewCountry1Name = view.findViewById(R.id.textViewCountry1Name);
+        TextView textViewCountry1Details = view.findViewById(R.id.textViewCountry1Details);
+        TextView textViewCountry2Name = view.findViewById(R.id.textViewCountry2Name);
+        TextView textViewCountry2Details = view.findViewById(R.id.textViewCountry2Details);
 
         Bundle args = getArguments();
         if (args != null) {
