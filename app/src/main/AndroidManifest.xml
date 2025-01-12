@@ -19,6 +19,7 @@
             android:name=".HomePageActivity"
             android:exported="true"
             android:label="Home Page">
+            <!-- Defines HomePageActivity as main activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

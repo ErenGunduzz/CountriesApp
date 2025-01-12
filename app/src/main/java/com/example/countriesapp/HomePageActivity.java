@@ -9,10 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class HomePageActivity extends AppCompatActivity {
-
-    ArrayList<String> countryList = new ArrayList<>();
     Button btnCountryList, btnFavorites, btnCompare;
 
+    // SQLiteOpenHelper controller helper class for SQLite database operations
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
     @Override
@@ -24,19 +23,21 @@ public class HomePageActivity extends AppCompatActivity {
         btnFavorites = findViewById(R.id.btn_favorites);
         btnCompare = findViewById(R.id.btn_compare);
 
-        // Buton tıklama olayları
+        // Button click list listeners
+        // Explicit intent to CountryListActivity class
         btnCountryList.setOnClickListener(v -> {
             Intent intent = new Intent(HomePageActivity.this, CountryListActivity.class);
             startActivity(intent);
         });
 
+        // Explicit intent to FavoritesActivity class
         btnFavorites.setOnClickListener(v -> {
             Intent intent = new Intent(HomePageActivity.this, FavoritesActivity.class);
             intent.putStringArrayListExtra("favorites", new ArrayList<>(databaseHelper.getAllFavorites()));
             startActivity(intent);
         });
 
-
+        // Explicit intent to CompareCountriesActivity class
         btnCompare.setOnClickListener(v -> {
             Intent intent = new Intent(HomePageActivity.this, CompareCountriesActivity.class);
             startActivity(intent);

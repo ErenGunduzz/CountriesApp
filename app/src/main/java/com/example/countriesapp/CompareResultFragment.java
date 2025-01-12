@@ -34,12 +34,16 @@ public class CompareResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Bu fragmet için layout inflate edildi
+        // inflater xml layouttan view nesneleri olsuturmak icin kullanilir
+        // Fragment'in icine eklenecegi parent gorunumu temsil eder.
         View view = inflater.inflate(R.layout.fragment_compare_result, container, false);
         TextView textViewCountry1Name = view.findViewById(R.id.textViewCountry1Name);
         TextView textViewCountry1Details = view.findViewById(R.id.textViewCountry1Details);
         TextView textViewCountry2Name = view.findViewById(R.id.textViewCountry2Name);
         TextView textViewCountry2Details = view.findViewById(R.id.textViewCountry2Details);
 
+        // fragment'e veri alinir.
+        // veri CompareCountriesActivity class'inda args a eklenir ve bu fragment'e gonderilir.
         Bundle args = getArguments();
         if (args != null) {
             String country1 = args.getString("country1");

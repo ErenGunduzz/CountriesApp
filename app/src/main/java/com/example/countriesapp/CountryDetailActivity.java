@@ -34,11 +34,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CountryDetailActivity extends AppCompatActivity {
 
     TextView countryNameTextView, countryDetailsTextView;
-    ImageView flagImageView; //Bayrağı göstermek için
-    ImageView countryPhotoImageView; //Ülke resmi için
-    Button btnOpenInMaps; //Ülkeyi haritada görmek için kullanılan button
+    ImageView flagImageView; // To display the flag
+    ImageView countryPhotoImageView; // To display country image
+    Button btnOpenInMaps; // To see the country's location on Google Maps
     String countryName;
 
+    // Used to add country to favorites
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
     @Override
@@ -49,6 +50,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Enables back button on toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -60,18 +62,18 @@ public class CountryDetailActivity extends AppCompatActivity {
         countryPhotoImageView = findViewById(R.id.countryPhotoImageView);
         btnOpenInMaps = findViewById(R.id.btn_open_in_maps);
 
-        //Intent'ten ülkenin ismi alınır
+        // Get country's name from countryListAdapter
         countryName = getIntent().getStringExtra("country_name");
         countryNameTextView.setText(countryName);
 
-        //Detaylar wikipedia'dan çekilir
+        // Fetch details from Wikipedia
         new FetchCountryDetails().execute();
 
         fetchPopulationData(countryName);
 
         fetchCountryPhotos(countryName);
 
-        // Haritada açma butonu işlevi
+        // Open on map
         btnOpenInMaps.setOnClickListener(v -> openCountryInMaps(countryName));
     }
 
@@ -82,7 +84,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         try {
             startActivity(intent);
         } catch (Exception e){
-            //Play Store'a yönlendirme
+            // Direct to Play Store
             Toast.makeText(this, "Google Maps not installed. Redirecting to Play Store.", Toast.LENGTH_SHORT).show();
             Intent playStoreIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.maps"));
             startActivity(playStoreIntent);
@@ -95,39 +97,39 @@ public class CountryDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_favorite) {
-            //Favorilere ekleme işlemi
+            // Adding to favorites
             addToFavorites();
             return true;
         } else if (id == android.R.id.home) {
-            //Geri butonuna basıldığında aktiviteyi kapat
+            // Close activity when back button is pressed
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    //Favorilere ekleme/çıkarma işlemi
+    // Adding to favorites
     private void addToFavorites() {
-        //Ülke favoriler database'inde mi diye kontrol edilir
-
-        if (databaseHelper.isFavorite(countryName)) { //Ülke zaten favorilerde varsa o zaman ülke favorilerden çıkarılır
+        // Controlling whether the country is in the favorites list or not
+        if (databaseHelper.isFavorite(countryName)) { // if it is already in the list, it will remove
             databaseHelper.removeFavorite(countryName);
             Toast.makeText(this, countryName + " removed from favorites!", Toast.LENGTH_SHORT).show();
-        } else { //Ülke favorilerde değilse, favorilere eklenir
+        } else { // if not in list, it will be added
             databaseHelper.addFavorite(countryName);
             Toast.makeText(this, countryName + " added to favorites!", Toast.LENGTH_SHORT).show();
         }
-        invalidateOptionsMenu(); // Menü simgesini güncelle
+        invalidateOptionsMenu(); // Update icon
     }
 
-    //Toolbarda yer alan favori simgesi ayarlaması
+    // Setting favorite icon on toolbar
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem favoriteItem = menu.findItem(R.id.action_favorite);
+        // check db to learn country is fav or not
         if (databaseHelper.isFavorite(countryName)) {
-            favoriteItem.setIcon(R.drawable.baseline_star_24); // Dolu yıldız
+            favoriteItem.setIcon(R.drawable.baseline_star_24); // star
         } else {
-            favoriteItem.setIcon(R.drawable.empty_star); // Boş yıldız
+            favoriteItem.setIcon(R.drawable.empty_star); // empty star
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -138,7 +140,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         return true;
     }
 
-    // Wikipedia'dan başkent, dil ve para birimi çekme
+    // fetching details from wikipedia
     private class FetchCountryDetails extends AsyncTask<Void, Void, String> {
 
         @Override
@@ -172,7 +174,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         }
     }
 
-    // Wikipedia Infobox'tan veri al
+    // get data from wikipedia infobox
     private String getInfoBoxValue(Element infoBox, String key) {
         Element row = infoBox.select("tr:contains(" + key + ")").first();
         if (row != null) {
