@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+// define adapter class to display recyclerview
 public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.ViewHolder> {
 
     ArrayList<String> countryList;

@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
-    private List<String> favoriteCountries;
+
+    private List<String> favoriteCountries;//Favori ülkeler listesi
 
     public FavoritesAdapter(List<String> favoriteCountries) {
         this.favoriteCountries = favoriteCountries;

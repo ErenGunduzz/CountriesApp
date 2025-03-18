@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#D6EAF8">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/favoritesToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:title="Favori Ülkeler"
+        android:title="@string/favourite_countries"
         android:titleTextColor="@android:color/white" />
 
     <androidx.recyclerview.widget.RecyclerView

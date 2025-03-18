@@ -8,6 +8,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +17,30 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
 
     Spinner spinnerCountry1, spinnerCountry2;
     Button btnCmp;
-    ArrayList<String> countryList = new ArrayList<>(); // Ülke listesi
+    ArrayList<String> countryList = new ArrayList<>(); // countries added to this.
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compare_countries);
 
+        toolbar = findViewById(R.id.toolbarCompare);
+        setSupportActionBar(toolbar);
+
+        //"Back" buttonunu aktif etme
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         spinnerCountry1 = findViewById(R.id.spinner_country1);
         spinnerCountry2 = findViewById(R.id.spinner_country2);
         btnCmp = findViewById(R.id.btn_cmp);
 
+        //Ülkeleri çekme
         CountryFetcher.fetchCountries(this);
 
+        //Karşılaştırılacak ülkelerin sırayla spinnerlar ile seçilmesi
         btnCmp.setOnClickListener(view -> {
             String country1 = (String) spinnerCountry1.getSelectedItem();
             String country2 = (String) spinnerCountry2.getSelectedItem();
@@ -53,7 +65,7 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
     public void onCountriesFetched(List<String> countries) {
         countryList.clear();
         countryList.addAll(countries);
-        setupSpinners(); // Spinnerları ayarlayan metod
+        setupSpinners(); // Spinnerları ayarlayan method
     }
 
     @Override
@@ -67,5 +79,17 @@ public class CompareCountriesActivity extends AppCompatActivity implements Count
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCountry1.setAdapter(adapter);
         spinnerCountry2.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(this, HomePageActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

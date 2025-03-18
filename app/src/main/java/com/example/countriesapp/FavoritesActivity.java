@@ -14,10 +14,14 @@ public class FavoritesActivity extends AppCompatActivity {
     RecyclerView favoritesRecyclerView;
     FavoritesAdapter adapter;
 
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
+
+        databaseHelper = new DatabaseHelper(this);
 
         favoritesRecyclerView = findViewById(R.id.favoritesRecyclerView);
         favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -29,25 +33,25 @@ public class FavoritesActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        // Favori ülkeleri al ve RecyclerView'e yükle
-        List<String> favoriteCountries = FavoriteCountries.getFavorites();
+        // Favori ülkeleri alıp RecyclerView'e yükleme
+        List<String> favoriteCountries = databaseHelper.getAllFavorites();
         if (favoriteCountries != null && !favoriteCountries.isEmpty()) {
             adapter = new FavoritesAdapter(favoriteCountries);
             if (adapter != null) {
                 favoritesRecyclerView.setAdapter(adapter);
             } else {
                 // Adapter oluşturulamadıysa hata mesajı
-                Toast.makeText(this, "Adapter oluşturulamadı",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Adapter could not created!",Toast.LENGTH_SHORT).show();
             }
         } else {
-            // Hata mesajı gösterebilirsiniz ya da boş listeyi gösterebilirsiniz
-            Toast.makeText(this, "Henüz bir favori yok", Toast.LENGTH_SHORT).show();
+            //Henüz bir favori yoksa ekranda mesajla gösterilir
+            Toast.makeText(this, "There is no favorite yet!", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            // Go back to the previous screen (HomePageActivity)
+            //Önceki ekrana yani HomePageActivity'a döner
             onBackPressed();
             return true;
         }
@@ -55,8 +59,11 @@ public class FavoritesActivity extends AppCompatActivity {
     }
     // Favori ülkeler değiştiğinde, adapter'ı güncelle
     public void updateFavoritesList() {
-        List<String> updatedFavorites = FavoriteCountries.getFavorites();
-        adapter.updateFavorites(updatedFavorites);
+        super.onResume();
+        List<String> favoriteCountries = databaseHelper.getAllFavorites();
+        if (adapter != null) {
+            adapter.updateFavorites(favoriteCountries);
+        }
     }
 
 

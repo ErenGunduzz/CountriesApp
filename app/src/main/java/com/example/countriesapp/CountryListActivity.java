@@ -1,6 +1,5 @@
 package com.example.countriesapp;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -27,7 +26,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryFet
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Enable the "Back" button on the toolbar
+        //Toolbar'daki back buttonunu aktif etme
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
@@ -56,11 +55,11 @@ public class CountryListActivity extends AppCompatActivity implements CountryFet
         Toast.makeText(this, "Failed to fetch country data.", Toast.LENGTH_SHORT).show();
     }
 
-    // Handle the back button press on the toolbar
+    //Back buttonuna basılma işlevini halleder
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            // Go back to the previous screen (HomePageActivity)
+            // Bir önceki ekrana yani HomePageActivity'e geri döner
             onBackPressed();
             return true;
         }

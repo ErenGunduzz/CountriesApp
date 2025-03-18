@@ -1,9 +1,12 @@
 package com.example.countriesapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +21,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,26 +31,26 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class CountryDetailActivity extends AppCompatActivity {
 
     TextView countryNameTextView, countryDetailsTextView;
-    ImageView flagImageView; // Bayrak resmini göstermek için
-    ImageView countryPhotoImageView; // Ülke görseli için
+    ImageView flagImageView; // To display the flag
+    ImageView countryPhotoImageView; // To display country image
+    Button btnOpenInMaps; // To see the country's location on Google Maps
     String countryName;
+
+    // Used to add country to favorites
+    DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_detail);
 
-        // Toolbar'ı tanımla
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Toolbar'a geri butonu ekle
+        // Enables back button on toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -55,59 +60,79 @@ public class CountryDetailActivity extends AppCompatActivity {
         countryDetailsTextView = findViewById(R.id.countryDetailsTextView);
         flagImageView = findViewById(R.id.flagImageView);
         countryPhotoImageView = findViewById(R.id.countryPhotoImageView);
+        btnOpenInMaps = findViewById(R.id.btn_open_in_maps);
 
-
-        // Intent ile gelen ülke adını al
+        // Get country's name from countryListAdapter
         countryName = getIntent().getStringExtra("country_name");
         countryNameTextView.setText(countryName);
 
-        // Wikipedia'dan detayları çek
+        // Fetch details from Wikipedia
         new FetchCountryDetails().execute();
 
-        // API'den nüfus verisini çek
         fetchPopulationData(countryName);
 
         fetchCountryPhotos(countryName);
+
+        // Open on map
+        btnOpenInMaps.setOnClickListener(v -> openCountryInMaps(countryName));
     }
+
+    private void openCountryInMaps(String countryName) {
+        Uri geoUri = Uri.parse("geo:0,0?q=" + Uri.encode(countryName));
+        Intent intent = new Intent(Intent.ACTION_VIEW, geoUri);
+        intent.setPackage("com.google.android.apps.maps");
+        try {
+            startActivity(intent);
+        } catch (Exception e){
+            // Direct to Play Store
+            Toast.makeText(this, "Google Maps not installed. Redirecting to Play Store.", Toast.LENGTH_SHORT).show();
+            Intent playStoreIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.maps"));
+            startActivity(playStoreIntent);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.action_favorite) {
-            // Favorilere ekleme işlemi
+            // Adding to favorites
             addToFavorites();
             return true;
         } else if (id == android.R.id.home) {
-            // Geri butonuna basıldığında aktiviteyi kapat
+            // Close activity when back button is pressed
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    // Adding to favorites
     private void addToFavorites() {
-        if (FavoriteCountries.isFavorite(countryName)) {
-            FavoriteCountries.removeFavorite(countryName);
-            Toast.makeText(this, countryName + " favorilerden kaldırıldı!", Toast.LENGTH_SHORT).show();
-        } else {
-            FavoriteCountries.addFavorite(countryName);
-            Toast.makeText(this, countryName + " favorilere eklendi!", Toast.LENGTH_SHORT).show();
+        // Controlling whether the country is in the favorites list or not
+        if (databaseHelper.isFavorite(countryName)) { // if it is already in the list, it will remove
+            databaseHelper.removeFavorite(countryName);
+            Toast.makeText(this, countryName + " removed from favorites!", Toast.LENGTH_SHORT).show();
+        } else { // if not in list, it will be added
+            databaseHelper.addFavorite(countryName);
+            Toast.makeText(this, countryName + " added to favorites!", Toast.LENGTH_SHORT).show();
         }
-        invalidateOptionsMenu(); // Menü simgesini güncelle
+        invalidateOptionsMenu(); // Update icon
     }
 
+    // Setting favorite icon on toolbar
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem favoriteItem = menu.findItem(R.id.action_favorite);
-        if (FavoriteCountries.isFavorite(countryName)) {
-            favoriteItem.setIcon(R.drawable.baseline_star_24); // Dolu yıldız
+        // check db to learn country is fav or not
+        if (databaseHelper.isFavorite(countryName)) {
+            favoriteItem.setIcon(R.drawable.baseline_star_24); // star
         } else {
-            favoriteItem.setIcon(R.drawable.ic_launcher_foreground); // Boş yıldız
+            favoriteItem.setIcon(R.drawable.empty_star); // empty star
         }
         return super.onPrepareOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -115,8 +140,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         return true;
     }
 
-
-    // Wikipedia'dan başkent, dil ve para birimi çekme
+    // fetching details from wikipedia
     private class FetchCountryDetails extends AsyncTask<Void, Void, String> {
 
         @Override
@@ -150,7 +174,7 @@ public class CountryDetailActivity extends AppCompatActivity {
         }
     }
 
-    // Wikipedia Infobox'tan veri al
+    // get data from wikipedia infobox
     private String getInfoBoxValue(Element infoBox, String key) {
         Element row = infoBox.select("tr:contains(" + key + ")").first();
         if (row != null) {
@@ -168,7 +192,6 @@ public class CountryDetailActivity extends AppCompatActivity {
         }
         return "Not available";
     }
-
 
     // REST API ile nüfus bilgisini çek
     private void fetchPopulationData(String country) {
@@ -245,14 +268,10 @@ public class CountryDetailActivity extends AppCompatActivity {
                 }
             }
 
-
-
-
             @Override
             public void onFailure(Call<PixabayResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
-
 }
